@@ -5,42 +5,44 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import Root, {loader as rootLoader, action as rootAction} from "./routes/root";
+import Root, { loader as rootLoader, action as rootAction } from "./routes/root";
 import ErrorPage from "./error-page";
-import Contact, {loader as contactLoader} from "./routes/contact";
-import EditContact, {action as editAction} from "./routes/edit";
-import {action as deleteAction} from "./routes/destroy";
+import Contact, { loader as contactLoader } from "./routes/contact";
+import EditContact, { action as editAction } from "./routes/edit";
+import { action as deleteAction } from "./routes/destroy";
+import Index from "./routes";
 
 
 const router = createBrowserRouter([
   {
     "path": "/",
     element: <Root />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     loader: rootLoader,
     action: rootAction,
     children: [
       {
         "path": "/contacts/:contactId",
-        element: <Contact/>,
+        element: <Contact />,
         loader: contactLoader
       },
       {
         "path": "/contacts/:contactId/edit",
-        element: <EditContact/>,
+        element: <EditContact />,
         loader: contactLoader,
-        action: editAction, 
+        action: editAction,
       },
       {
         "path": "/contacts/:contactId/destroy",
         action: deleteAction,
-      }
+      },
+      { index: true, element: <Index /> }
     ]
   },
 ]);
 
 ReactDom.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router = {router} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 )
