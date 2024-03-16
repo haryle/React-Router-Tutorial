@@ -1,9 +1,14 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom";
-import { getContacts } from "../contacts"
+import { Link, Outlet, useLoaderData, Form } from "react-router-dom";
+import { getContacts, createContact } from "../contacts"
 
 export async function loader() {
     const contacts = await getContacts();
     return { contacts };
+}
+
+export async function action(){
+    const contacts = await createContact();
+    return {contacts};
 }
 
 export default function Root() {
@@ -13,14 +18,14 @@ export default function Root() {
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
-                    <form id="search-form" role="search">
+                    <Form id="search-form" role="search">
                         <input type="search" id="q" name="q" aria-label="Search contacts" placeholder="Search" />
                         <div id="search-spinner" aria-hidden hidden={true} />
                         <div className="sr-only" aria-live="polite"></div>
-                    </form>
-                    <form method="post">
+                    </Form>
+                    <Form method="post">
                         <button type="submit">New</button>
-                    </form>
+                    </Form>
                 </div>
                 <nav>
                     {contacts.length ? (
